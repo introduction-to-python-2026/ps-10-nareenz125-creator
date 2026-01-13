@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from skimage.filters import median
 from skimage.morphology import ball
-
+from image_utils import load_image, edge_detection
 
 image_path = "image.jpg"
 org = load_image(image_path)
