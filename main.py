@@ -1,30 +1,42 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from PIL import Image
 from skimage.filters import median
 from skimage.morphology import ball
-from image_utils import load_image, edge_detection
 
 
-original_image_path = "image.jpg"
+image_path = "image.jpg"
+org = load_image(image_path)
 
-print(f"Loading image from: {original_image_path}")
-img = load_image(original_image_path)
-print(f"Original image shape: {img.shape}")
+plt.imshow(org)
+plt.title("Original Image")
+plt.axis("off")
+plt.show()
 
-print("Applying median filter for noise suppression...")
-clean_image = median(img, ball(3))
-print(f"Cleaned image shape: {clean_image.shape}")
+clean_image = median(org, ball(3))
 
+plt.imshow(clean_image)
+plt.title("Cleaned Image")
+plt.axis("off")
+plt.show()
 
-print("Performing edge detection...")
-edgeMAG = edge_detection(clean_image)
-print(f"Edge magnitude image shape: {edgeMAG.shape}")
+edge_image = edge_detection(clean_image)
 
-print("Converting to binary image with threshold...")
+plt.figure(figsize = (6, 4))
+plt.hist(edge_image.flatten(), bins = 100)
+plt.title("Edge Detection Histogram")
+plt.xlabel("Magnitude")
+plt.ylabel("Frequency")
+plt.show()
 
-edge_binary_display = Image.fromarray(np.uint8(edgeMAG / edgeMAG.max() * 255))
+threshold = 100
+edge_22 = edge_image > threshold
 
+plt.figure(figsize = (6, 6))
+plt.imshow(edge_22, cmap = "gray")
+plt.title("Edge Detection Image")
+plt.axis("off")
+plt.show()
 
-output_image_path = "edge_detected.png"
-edge_binary_display.save(output_image_path)
-print(f"Edge-detected image saved as '{output_image_path}'")
+edge_image = Image.fromarray((edge_image * 255).astype(np.uint8))
+edge_image.save("edge_image.png")
