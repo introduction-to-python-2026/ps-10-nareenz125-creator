@@ -4,7 +4,7 @@ from scipy.signal import convolve2d
 
 def load_image(file_path):
   image = Image.open(file_path)
-  image_array = np.array(input_image)
+  image_array = np.array(image)
   return image_array
 
 def edge_detection(loaded_img):
@@ -18,8 +18,8 @@ def edge_detection(loaded_img):
                       [-2, 0, 2],
                       [-1, 0, 1]])
 
-  edge_x = convolve2d(gray_tumor, kernelX, mode='same', boundary='fill', fillvalue=0)
-  edge_y = convolve2d(gray_tumor, kernelY, mode='same', boundary='fill', fillvalue=0)
+  edge_x = convolve2d(gray, kernelX, mode='same', boundary='fill', fillvalue=0)
+  edge_y = convolve2d(gray, kernelY, mode='same', boundary='fill', fillvalue=0)
 
   edge_mag = np.sqrt(edge_x**2 + edge_y**2)
 
